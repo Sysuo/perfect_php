@@ -12,6 +12,7 @@ $loader = new core¥ClassLoader();
 $loader->registerDir(dirname(__FILE__) . '/core');
 $loader->registerDir(dirname(__FILE__) . '/core/web');
 $loader->registerDir(dirname(__FILE__) . '/core/db');
+$loader->registerDir(dirname(__FILE__) . '/core/errors');
 $loader->registerDir(dirname(__FILE__) . '/models');
 $loader->register();
 

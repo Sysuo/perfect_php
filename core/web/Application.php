@@ -92,16 +92,20 @@ abstract class Application
 	}
 
 	public function run() {
-		$params = $this->router->resolve($this->request->getPathInfo());
-		if ($params === false) {
-			// todo-A
+		try {
+			$params = $this->router->resolve($this->request->getPathInfo());
+			if ($params === false) {
+				throw new HttpNotFoundException();
+			}
+
+			$controller = $params['controller'];
+			$action = $params['action'];
+
+			$this->runAction($controller, $action, $params);
+
+		} catch(HttpNotFoundException $e) {
+			$this->render404Page($e);
 		}
-
-		$controller = $params['controller'];
-		$action = $params['action'];
-
-		$this->runAction($controller, $action, $params);
-
 		$this->response->send();
 	}
 
@@ -132,6 +136,15 @@ abstract class Application
 			}
 		}
 		return new $controller_class($this);
+	}
+
+	protected function render404Page($e) {
+		$this->response->setStatusCode(404, 'Not Found');
+		$message = $this->isDebugMode() ? $e->getMessage() : 'Page not found.';
+		$message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+
+		// TODO エラーページを作成して表示する
+		$this->response->setContent($message);
 	}
 
 }
