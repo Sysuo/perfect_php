@@ -117,7 +117,7 @@ abstract class Application
 		$controller_class = ucfirst($controller_name) . 'Controller';
 		$controller = $this->findController($controller_class);
 		if ($controller === false) {
-			// todo-B
+			throw new HttpNotFoundException();
 		}
 
 		$content = $controller->run($action, $params);

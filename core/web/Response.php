@@ -35,7 +35,7 @@ class Response
 		$this->status_text = $status_text;
 	}
 
-	public function setHttpHEader($name, $value) {
+	public function setHttpHeader($name, $value) {
 		$this->http_headers[$name] = $value;
 	}
 }
